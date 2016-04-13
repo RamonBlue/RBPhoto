@@ -1,10 +1,10 @@
 # RBPhoto
 ## At a glance
-* A photo image view support zoom and lanscape
+* A photo image view supports zoom and lanscape mode
  
 ![](http://upload-images.jianshu.io/upload_images/855492-3464b444d3deaa4b.gif)
 	
-* A photo browser base on RBPhotoView
+* A photo browser based on RBPhotoView
 
 ![](http://upload-images.jianshu.io/upload_images/855492-56dd4883cf1b6a4b.gif)
 	
@@ -13,7 +13,7 @@
 
 ![](http://upload-images.jianshu.io/upload_images/855492-6aba21b0568d2900.gif)
 	
-* Low memery cost on GIF playing in advantage of YYImage
+* Low memory cost on GIF playing in advantage of YYImage
 
 ![](http://upload-images.jianshu.io/upload_images/855492-9e35d7ac2f1eac2c.gif)
 
@@ -23,7 +23,7 @@
 
 ## Install
 * Drag RBPhoto/Core under your project if you just want to use the image view
-* Drag entire RBPhoto folder under your project if you want use the photo browser, add libz.tbd
+* Drag entire RBPhoto folder under your project if you want to use the photo browser, add libz.tbd
 
 ## Requirements
 iOS7+ & iPhone & Xcode7
