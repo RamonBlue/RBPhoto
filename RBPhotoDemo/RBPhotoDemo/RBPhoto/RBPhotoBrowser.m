@@ -296,6 +296,10 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
 
 - (void)rbPhotoViewController:(RBPhotoViewController *)controller singleTap:(UITapGestureRecognizer *)gesture atPhotoView:(RBPhotoView *)photoView
 {
+    if ([self.delegate respondsToSelector:@selector(rbPhoto:singleTapGesture:atPhotoView:withPhotoController:)])
+    {
+        [self.delegate rbPhoto:self singleTapGesture:gesture atPhotoView:photoView withPhotoController:controller];
+    }
     if (self.showStyle == RBPhotoShowStyleZoom)
     {
         if (self.fromOrientation != self.fromController.interfaceOrientation)
@@ -309,13 +313,19 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
     }
     else
     {
-        [self.photoController.navigationController setNavigationBarHidden:!self.photoController.navigationController.navigationBarHidden animated:YES];
+        if (![self.delegate respondsToSelector:@selector(rbPhoto:singleTapGesture:atPhotoView:withPhotoController:)])
+        {
+            [self.photoController.navigationController setNavigationBarHidden:!self.photoController.navigationController.navigationBarHidden animated:YES];
+        }
     }
 }
 
 - (void)rbPhotoViewController:(RBPhotoViewController *)controller doubleTap:(UITapGestureRecognizer *)gesture atPhotoView:(RBPhotoView *)photoView
 {
-
+    if ([self.delegate respondsToSelector:@selector(rbPhotoViewController:doubleTap:atPhotoView:)])
+    {
+        [self.delegate rbPhoto:self doubleTapGesture:gesture atPhotoView:photoView withPhotoController:controller];
+    }
 }
 
 - (void)rbPhotoViewController:(RBPhotoViewController *)controller longPress:(UILongPressGestureRecognizer *)gesture atPhotoView:(RBPhotoView *)photoView

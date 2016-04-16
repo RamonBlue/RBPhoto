@@ -37,7 +37,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [self clear];
+    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 - (BOOL)shouldAutorotate

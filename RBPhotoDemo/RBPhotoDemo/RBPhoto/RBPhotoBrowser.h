@@ -19,9 +19,16 @@ typedef enum{
 
 @class RBPhotoBrowser;
 @protocol RBPhotoDelegate <NSObject>
+
+@optional
 - (void)rbPhoto:(nonnull RBPhotoBrowser *)photo didScrollToIndex:(CGFloat)index withPhotoController: (nonnull RBPhotoViewController *)controller;
+
 - (void)rbPhoto:(nonnull RBPhotoBrowser *)photo willBeginDraggingwithPhotoController: (nonnull RBPhotoViewController *)controller;
+
 - (void)rbPhoto: (nonnull RBPhotoBrowser *)photo longPressGesture: (nullable UILongPressGestureRecognizer *)gesture atPhotoView: (nonnull RBPhotoView *)photoView withPhotoController: (nonnull RBPhotoViewController *)controller;
+- (void)rbPhoto: (nonnull RBPhotoBrowser *)photo singleTapGesture: (nullable UITapGestureRecognizer *)gesture atPhotoView: (nonnull RBPhotoView *)photoView withPhotoController: (nonnull RBPhotoViewController *)controller;
+- (void)rbPhoto: (nonnull RBPhotoBrowser *)photo doubleTapGesture: (nullable UITapGestureRecognizer *)gesture atPhotoView: (nonnull RBPhotoView *)photoView withPhotoController: (nonnull RBPhotoViewController *)controller;
+
 @end
 
 @interface RBPhotoBrowser : NSObject
