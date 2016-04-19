@@ -2,24 +2,24 @@
 ## At a glance
 * A photo image view supports zoom and lanscape mode
  
-![GIF](http://upload-images.jianshu.io/upload_images/855492-3464b444d3deaa4b.gif)
+![GIF](http://upload-images.jianshu.io/upload_images/855492-47fadee63a7b380c.gif)
 	
 * A photo browser based on RBPhotoView
 
-![GIF](http://upload-images.jianshu.io/upload_images/855492-56dd4883cf1b6a4b.gif)
+![GIF](http://upload-images.jianshu.io/upload_images/855492-ee7c0575eb3fcff8.gif)
 	
 * Web image load and prefetch in advantage of SDWebImage
 * Progress show in advantage of MBProgressHUD
 
-![GIF](http://upload-images.jianshu.io/upload_images/855492-6aba21b0568d2900.gif)
+![GIF](http://upload-images.jianshu.io/upload_images/855492-afa52a1477914355.gif)
 	
 * Low memory cost on GIF playing in advantage of YYImage
 
-![GIF](http://upload-images.jianshu.io/upload_images/855492-9e35d7ac2f1eac2c.gif)
+![GIF](http://upload-images.jianshu.io/upload_images/855492-8220bb3ef260eb21.gif)
 
 * Easy to customize
 
-![GIF](http://upload-images.jianshu.io/upload_images/855492-746744c594a9a7c0.gif)
+![GIF](http://upload-images.jianshu.io/upload_images/855492-3548ffda023b53e3.gif)
 
 ## Install
 * Drag RBPhoto/Core under your project if you just want to use the image view
