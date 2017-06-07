@@ -1,6 +1,6 @@
 # RBPhoto
-## At a glance
-* A photo image view supports zoom and lanscape mode
+## 简述
+* 网络图片浏览器,支持缩放/横屏
  
 ![GIF](http://upload-images.jianshu.io/upload_images/855492-47fadee63a7b380c.gif)
 	
@@ -8,16 +8,16 @@
 
 ![GIF](http://upload-images.jianshu.io/upload_images/855492-ee7c0575eb3fcff8.gif)
 	
-* Web image load and prefetch in advantage of SDWebImage
-* Progress show in advantage of MBProgressHUD
+* SDWebImage提前下载图片
+* MBProgressHUD显示加载进度
 
 ![GIF](http://upload-images.jianshu.io/upload_images/855492-afa52a1477914355.gif)
 	
-* Low memory cost on GIF playing in advantage of YYImage
+* FLAnimatedImage动态图片的低内存消耗
 
 ![GIF](http://upload-images.jianshu.io/upload_images/855492-8220bb3ef260eb21.gif)
 
-* Easy to customize
+* 方便自定义
 
 ![GIF](http://upload-images.jianshu.io/upload_images/855492-3548ffda023b53e3.gif)
 

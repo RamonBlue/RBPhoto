@@ -8,9 +8,10 @@
 
 #import "RBPhotoBrowser.h"
 #import "UIImageView+WebCache.h"
-#import "SDWebImage/SDWebImagePrefetcher.h"
+#import "SDWebImagePrefetcher.h"
 #import "MBProgressHUD.h"
-#import "YYImage/YYImage.h"
+#import "FLAnimatedImageView+WebCache.h"
+#import "FLAnimatedImage.h"
 
 #define RBMainScreenBounds  [UIScreen mainScreen].bounds
 #define RBMainScreenSize    RBMainScreenBounds.size
@@ -55,7 +56,7 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
     });
     RBPhotoViewController *photoController = [RBPhotoViewController new];
     self.photoController = photoController;
-    photoController.imageViewClass = [YYAnimatedImageView class];
+    photoController.imageViewClass = [FLAnimatedImageView class];
     photoController.delegate = self;
     photoController.startIndex = self.startIndex;
     
@@ -113,9 +114,9 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
 
 - (void)setPhotoView: (RBPhotoView *)photoView withImage: (UIImage *)image
 {
+    //设置图片步骤删掉,只调整大小
     if (!image) return;
-    ((YYAnimatedImageView *)photoView.imageView).runloopMode = NSDefaultRunLoopMode;
-    photoView.imageView.image = image;
+    ((FLAnimatedImageView *)photoView.imageView).runLoopMode = NSDefaultRunLoopMode;
     CGSize screenSize = RBMainScreenSize;
     CGSize imageSize = CGSizeZero;
     if (screenSize.width > screenSize.height)
@@ -188,7 +189,7 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
     if (!image) {
         return 2;
     }
-
+    
     CGFloat maxZoomScale = 2;
     CGSize imageSize = image.size;
     if (RBMainScreenWidth < RBMainScreenHeight)
@@ -231,11 +232,15 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
         }
         else
         {
-            if (![[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:model.imageURLString]])
-            {
-                photoView.w1 = photoView.w1? :[MBProgressHUD showHUDAddedTo:photoView animated:YES];
-                [self setPhotoView:photoView withImage:model.placeholderImage];
-            }
+            [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:model.imageURLString] completion:^(BOOL isInCache) {
+                if (!isInCache)
+                {
+                    photoView.w1 = photoView.w1? :[MBProgressHUD showHUDAddedTo:photoView animated:YES];
+                    //knock
+                    photoView.imageView.image = model.placeholderImage;
+                    [self setPhotoView:photoView withImage:model.placeholderImage];
+                }
+            }];
             
             photoView.w1 = photoView.w1? :[MBProgressHUD showHUDAddedTo:photoView animated:YES];
             ((MBProgressHUD *)photoView.w1).label.text = nil;
@@ -248,31 +253,31 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
             __weak NSString *imageURLString = weakPhotoView.c1;
             photoView.reactDoubleTapZoom = NO;
             
-            [photoView.imageView sd_setImageWithURL:[NSURL URLWithString:model.imageURLString] placeholderImage:nil options:SDWebImageAvoidAutoSetImage | SDWebImageRetryFailed | SDWebImageDelayPlaceholder progress:^(NSInteger receivedSize, NSInteger expectedSize)
-             {
-                 if(weakPhotoView.c1 && imageURLString && [imageURLString isEqualToString:weakPhotoView.c1])
-                 {
-                     [weakPhotoView.w1 setHidden:NO];
-                     ((MBProgressHUD *)weakPhotoView.w1).progress = 1.0 * receivedSize / expectedSize;
-                 }
-             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-             {
-                 if (weakPhotoView.c1 && imageURLString && [imageURLString isEqualToString:weakPhotoView.c1])
-                 {
-                     if (image)
-                     {
-                         weakPhotoView.reactDoubleTapZoom = YES;
-                         [weakPhotoView.w1 setHidden:YES];
-                         [weakSelf setPhotoView:weakPhotoView withImage:image];
-                     }
-                     else
-                     {
-                         [weakPhotoView.w1 setHidden:NO];
-                         [weakPhotoView.w1 setMode:MBProgressHUDModeText];
-                         ((MBProgressHUD *)weakPhotoView.w1).label.text = @"X";
-                     }
-                 }
-             }];
+            [photoView.imageView sd_setImageWithURL:[NSURL URLWithString:model.imageURLString] placeholderImage:nil options: SDWebImageRetryFailed | SDWebImageDelayPlaceholder progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                if(weakPhotoView.c1 && imageURLString && [imageURLString isEqualToString:weakPhotoView.c1])
+                {
+                    [weakPhotoView.w1 setHidden:NO];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        ((MBProgressHUD *)weakPhotoView.w1).progress = 1.0 * receivedSize / expectedSize;
+                    });
+                }
+            } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                if (weakPhotoView.c1 && imageURLString && [imageURLString isEqualToString:weakPhotoView.c1])
+                {
+                    if (image)
+                    {
+                        weakPhotoView.reactDoubleTapZoom = YES;
+                        [weakPhotoView.w1 setHidden:YES];
+                        [weakSelf setPhotoView:weakPhotoView withImage:image];
+                    }
+                    else
+                    {
+                        [weakPhotoView.w1 setHidden:NO];
+                        [weakPhotoView.w1 setMode:MBProgressHUDModeText];
+                        ((MBProgressHUD *)weakPhotoView.w1).label.text = @"X";
+                    }
+                }
+            }];
         }
     }
 }
