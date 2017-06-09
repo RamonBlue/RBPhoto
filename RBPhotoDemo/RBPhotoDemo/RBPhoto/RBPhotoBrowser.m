@@ -78,7 +78,7 @@ static const CGFloat DEFAULT_ZOOM_FACTOR = 0.1;
         {
             self.fromOrientation = self.fromController.interfaceOrientation;
             [self.keyWindow addSubview:photoController.view];
-            [self.fromController.navigationController addChildViewController:photoController];
+            [self.fromController.navigationController? self.fromController.navigationController: self.fromController addChildViewController:photoController];
             photoController.view.frame = RBMainScreenBounds;
         }
             break;
